@@ -73,7 +73,7 @@ begin
     else if(icode==4)
         begin 
         valP <= PC + 10;
-        valC <= {instr_mem[PC+2],instr_mem[PC+3],instr_mem[PC+4],instr_mem[PC+5],instr_mem[PC+6],instr_mem[PC+7],instr_mem[PC+8],instr_mem[PC+9]};
+        // valC <= {instr_mem[PC+2],instr_mem[PC+3],instr_mem[PC+4],instr_mem[PC+5],instr_mem[PC+6],instr_mem[PC+7],instr_mem[PC+8],instr_mem[PC+9]};
         // valC[7:0] <= instr_mem[PC+2];
         // val[15:8] <= instr_mem[PC+3];
         // valC[23:16] <= instr_mem[PC+4];
@@ -82,14 +82,21 @@ begin
         // val[47:40] <= instr_mem[PC+7];
         // valC[55:48] <= instr_mem[PC+8];
         // val[63:56] <= instr_mem[PC+9];
-
+        valC[7:0] <= instr_mem[PC+2];
+            valC[15:8] <= instr_mem[PC+3];
+            valC[23:16] <= instr_mem[PC+4];
+            valC[31:24] <= instr_mem[PC+5];
+            valC[39:32] <= instr_mem[PC+6];
+            valC[47:40] <= instr_mem[PC+7];
+            valC[55:48] <= instr_mem[PC+8];
+            valC[63:56] <= instr_mem[PC+9];
         rB <= instr_mem[PC+1][3:0];
         rA <= instr_mem[PC+1][7:4];
         end
     else if(icode==3)
         begin
             valP <= PC + 10;
-            // valC <= {instr_mem[PC+2], instr_mem[PC+3], instr_mem[PC+4], instr_mem[PC+5], instr_mem[PC+6], instr_mem[PC+7], instr_mem[PC+8], instr_mem[PC+9]};
+            // valC <= {instr_mem[PC+9], instr_mem[PC+8], instr_mem[PC+7], instr_mem[PC+6], instr_mem[PC+5], instr_mem[PC+4], instr_mem[PC+3], instr_mem[PC+2]};
             valC[7:0] <= instr_mem[PC+2];
             valC[15:8] <= instr_mem[PC+3];
             valC[23:16] <= instr_mem[PC+4];
@@ -105,14 +112,30 @@ begin
     else if(icode==5)
         begin 
             valP <= PC + 10;
-            valC <= {instr_mem[PC+2], instr_mem[PC+3], instr_mem[PC+4], instr_mem[PC+5], instr_mem[PC+6], instr_mem[PC+7], instr_mem[PC+8], instr_mem[PC+9]};
+            // valC <= {instr_mem[PC+2], instr_mem[PC+3], instr_mem[PC+4], instr_mem[PC+5], instr_mem[PC+6], instr_mem[PC+7], instr_mem[PC+8], instr_mem[PC+9]};
+            valC[7:0] <= instr_mem[PC+2];
+            valC[15:8] <= instr_mem[PC+3];
+            valC[23:16] <= instr_mem[PC+4];
+            valC[31:24] <= instr_mem[PC+5];
+            valC[39:32] <= instr_mem[PC+6];
+            valC[47:40] <= instr_mem[PC+7];
+            valC[55:48] <= instr_mem[PC+8];
+            valC[63:56] <= instr_mem[PC+9];
             rB <= instr_mem[PC+1][3:0];
             rA <= instr_mem[PC+1][7:4];
         end
     else if(icode==7)
      begin
             valP <= PC+9;
-            valC <= {instr_mem[PC+2], instr_mem[PC+3], instr_mem[PC+4], instr_mem[PC+5], instr_mem[PC+6], instr_mem[PC+7], instr_mem[PC+8], instr_mem[PC+9]};
+            // valC <= {instr_mem[PC+2], instr_mem[PC+3], instr_mem[PC+4], instr_mem[PC+5], instr_mem[PC+6], instr_mem[PC+7], instr_mem[PC+8], instr_mem[PC+9]};
+            valC[7:0] <= instr_mem[PC+2];
+            valC[15:8] <= instr_mem[PC+3];
+            valC[23:16] <= instr_mem[PC+4];
+            valC[31:24] <= instr_mem[PC+5];
+            valC[39:32] <= instr_mem[PC+6];
+            valC[47:40] <= instr_mem[PC+7];
+            valC[55:48] <= instr_mem[PC+8];
+            valC[63:56] <= instr_mem[PC+9];
 
      end
     else if(icode==11)
@@ -124,7 +147,15 @@ begin
     else if(icode==8)
         begin
             valP<=PC +9;
-            valC<={instr_mem[PC+2], instr_mem[PC+3], instr_mem[PC+4], instr_mem[PC+5], instr_mem[PC+6], instr_mem[PC+7], instr_mem[PC+8], instr_mem[PC+9]};
+            // valC<={instr_mem[PC+2], instr_mem[PC+3], instr_mem[PC+4], instr_mem[PC+5], instr_mem[PC+6], instr_mem[PC+7], instr_mem[PC+8], instr_mem[PC+9]};
+            valC[7:0] <= instr_mem[PC+2];
+            valC[15:8] <= instr_mem[PC+3];
+            valC[23:16] <= instr_mem[PC+4];
+            valC[31:24] <= instr_mem[PC+5];
+            valC[39:32] <= instr_mem[PC+6];
+            valC[47:40] <= instr_mem[PC+7];
+            valC[55:48] <= instr_mem[PC+8];
+            valC[63:56] <= instr_mem[PC+9];
         end
 end
 endmodule 
