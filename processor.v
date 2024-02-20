@@ -26,24 +26,25 @@ wire [63:0] reg_wire [0:14];
 
 reg status[0:3];
 
-fetch F1(PC,clk, icode, ifun, rA, rB, valC, valP, invalid_instr,memory_error,halt);
-decode D1(clk, icode, rA, rB, valA, valB, reg_file[0], reg_file[1], reg_file[2], reg_file[3], reg_file[4], reg_file[5], reg_file[6], reg_file[7], reg_file[8], reg_file[9], reg_file[10], reg_file[11], reg_file[12], reg_file[13], reg_file[14]);
-execute E1(clk, icode, ifun, valA, valB, valC, valE, cnd, ZF, SF, OF);
-memory M1(clk, icode, valA, valB, valP, valE, valM);
-writeBack w1(clk, icode, rA, rB, valE, valM, reg_wire[0], reg_wire[1], reg_wire[2], reg_wire[3], reg_wire[4], reg_wire[5], reg_wire[6], reg_wire[7], reg_wire[8], reg_wire[9], reg_wire[10], reg_wire[11], reg_wire[12], reg_wire[13], reg_wire[14]);
-pc_update P1(clk, icode, cnd, valC, valM, valP, PC_new);
+fetch F(PC,clk, icode, ifun, rA, rB, valC, valP, invalid_instr,memory_error,halt);
+decode D(clk, icode, rA, rB, valA, valB, reg_file[0], reg_file[1], reg_file[2], reg_file[3], reg_file[4], reg_file[5], reg_file[6], reg_file[7], reg_file[8], reg_file[9], reg_file[10], reg_file[11], reg_file[12], reg_file[13], reg_file[14]);
+execute E(clk, icode, ifun, valA, valB, valC, valE, cnd, ZF, SF, OF);
+memory M(clk, icode, valA, valB, valP, valE, valM);
+writeBack w(clk, icode, rA, rB, valE, valM, reg_wire[0], reg_wire[1], reg_wire[2], reg_wire[3], reg_wire[4], reg_wire[5], reg_wire[6], reg_wire[7], reg_wire[8], reg_wire[9], reg_wire[10], reg_wire[11], reg_wire[12], reg_wire[13], reg_wire[14]);
+pc_update P(clk, icode, cnd, valC, valM, valP, PC_new);
 
 initial begin
+    
     $dumpfile("processor.vcd");
     $dumpvars(0, processor_tb);
 
     clk <= 0;
+    PC <= 0;
+    $monitor("time=%0d  clk=%0d  PC=%0d icode=%0h  ifun=%0d  rA=%0d  rB=%0d  valC=%0d  valP=%0d  memory_error=%0d, halt=%0d, 0=%0d  1=%0d  2=%0d  3=%0d  4=%0d  5=%0d  6=%0d  7=%0d  8=%0d  9=%0d  10=%0d  11=%0d  12=%0d  13=%0d  14=%0d valA=%0d, valB=%0d , valC = %0d , valE = %0d, valM = %0d, valE = %0d\n", $time, clk, PC, icode, ifun, rA, rB, valC, valP, memory_error, halt, reg_file[0], reg_file[1], reg_file[2], reg_file[3], reg_file[4], reg_file[5], reg_file[6], reg_file[7], reg_file[8], reg_file[9], reg_file[10], reg_file[11], reg_file[12], reg_file[13], reg_file[14], valA, valB,valC,valE,valM,valP);
     forever begin
         #5
         clk = ~clk;
     end
-
-    PC <= 0;
 
     // status[0] = 1;
     // status[1] = 0;
@@ -52,18 +53,21 @@ initial begin
 
     // $monitor("time=%0d  clk=%0d  PC=%0d icode=%0h  ifun=%0d  rA=%0d  rB=%0d  valC=%0d  valP=%0d  memory_error=%0d, halt=%0d, 0=%0d  1=%0d  2=%0d  3=%0d  4=%0d  5=%0d  6=%0d  7=%0d  8=%0d  9=%0d  10=%0d  11=%0d  12=%0d  13=%0d  14=%0d valA=%0d, valB=%0d", $time, clk, PC, icode, ifun, rA, rB, valC, valP, memory_error, halt, reg_file[0], reg_file[1], reg_file[2], reg_file[3], reg_file[4], reg_file[5], reg_file[6], reg_file[7], reg_file[8], reg_file[9], reg_file[10], reg_file[11], reg_file[12], reg_file[13], reg_file[14], valA, valB);
 
-    #30
+    // #30
+    // $finish;
+end
+initial begin
+    #100
     $finish;
 end
 
 always @(posedge clk) begin
     
     PC <= PC_new;
-    $monitor("time=%0d  clk=%0d  PC=%0d icode=%0h  ifun=%0d  rA=%0d  rB=%0d  valC=%0d  valP=%0d  memory_error=%0d, halt=%0d, 0=%0d  1=%0d  2=%0d  3=%0d  4=%0d  5=%0d  6=%0d  7=%0d  8=%0d  9=%0d  10=%0d  11=%0d  12=%0d  13=%0d  14=%0d valA=%0d, valB=%0d", $time, clk, PC, icode, ifun, rA, rB, valC, valP, memory_error, halt, reg_file[0], reg_file[1], reg_file[2], reg_file[3], reg_file[4], reg_file[5], reg_file[6], reg_file[7], reg_file[8], reg_file[9], reg_file[10], reg_file[11], reg_file[12], reg_file[13], reg_file[14], valA, valB);
-
+    
 end
 
-always@(*)
+always@(posedge clk)
     begin
         if(halt == 1)
             begin

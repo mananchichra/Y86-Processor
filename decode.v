@@ -18,7 +18,7 @@ module decode(input clk,input[3:0] icode,input[3:0] rA,input[3:0] rB,output reg[
 
 reg [63:0] registers [0:14];
 
-always @ (posedge clk)  
+always @ (*)  
     begin
         registers[0] = reg_mem_0;
         registers[1] = reg_mem_1;
@@ -47,7 +47,7 @@ always @ (posedge clk)
         // cmovxx rA, rB
         else if(icode == 2)
         begin 
-            valA <= registers[rA];
+            valA = registers[rA];
         end
 
         // irmovq V, rB
@@ -57,21 +57,21 @@ always @ (posedge clk)
         // rmmovq rA, D(rB)
         else if(icode == 4)
         begin 
-            valA <= registers[rA];
-            valB <= registers[rB];
+            valA = registers[rA];
+            valB = registers[rB];
         end
             
         // mrmovq D(rB), rA
         else if(icode == 5)
         begin 
-            valB <= registers[rB];
+            valB = registers[rB];
         end
 
         // Opq rA, rB
         else if(icode == 6) 
         begin 
-            valA <= registers[rA];
-            valB <= registers[rB];
+            valA = registers[rA];
+            valB = registers[rB];
         end
 
         // jXX Dest
@@ -81,28 +81,28 @@ always @ (posedge clk)
         // call Dest
         else if(icode == 8) 
         begin 
-            valB <= registers[4];
+            valB = registers[4];
         end
 
         // ret
         else if(icode == 9)
         begin 
-            valA <= registers[4];
-            valB <= registers[4];
+            valA = registers[4];
+            valB = registers[4];
         end
 
         // pushq rA
         else if(icode == 10)
         begin 
-            valA <= registers[rA];
-            valB <= registers[4];
+            valA = registers[rA];
+            valB = registers[4];
         end
 
         // popq rA
         else if(icode == 11) 
         begin 
-            valA <= registers[4];
-            valB <= registers[4];
+            valA = registers[4];
+            valB = registers[4];
         end
         
     end

@@ -23,7 +23,7 @@ wire overflow;
 
 always @(*)
     begin
-        cnd = 0;
+        cnd = 1;
         // ZF = 0; OF = 0; SF=0; not sure right now
 
         case(icode)
@@ -40,7 +40,7 @@ always @(*)
             // rrmovq
             4'b0000: 
             begin 
-                cnd = 1; // unconditional move instr              
+                // cnd = 1; // unconditional move instr              
             end
                 
             // cmovle
@@ -50,6 +50,8 @@ always @(*)
                 cndA = xor_out; cndB = ZF;
                 if(or_out)
                     cnd = 1;
+                else
+                    cnd = 0;
             end
 
             // cmovl
@@ -58,6 +60,8 @@ always @(*)
                 cndA = SF; cndB = OF;
                 if(xor_out)
                     cnd = 1;
+                else
+                    cnd = 0;
             end
 
             // cmove
@@ -65,6 +69,8 @@ always @(*)
             begin 
                 if(ZF)
                     cnd = 1;
+                else
+                    cnd = 0;
             end
 
             // cmovne
@@ -73,6 +79,8 @@ always @(*)
                 cndA = ZF;
                 if(not_out)
                     cnd = 1;
+                else
+                    cnd = 0;
             end
 
             // cmovge
@@ -83,6 +91,8 @@ always @(*)
                 cndA = xor_out;
                 if(not_out)
                     cnd = 1;
+                else
+                    cnd = 0;
             end
 
             // cmovg
@@ -95,11 +105,15 @@ always @(*)
                         cndA = ZF;
                         if(not_out)
                             cnd = 1;
+                        else
+                            cnd = 0;
                     end
             end
             endcase
             aluA = valA;
             aluB = 0;
+            if(cnd == 1)
+                aluA = valB;
             control = 0; // valE = valA + 0
         end
 
@@ -180,6 +194,8 @@ always @(*)
                 cndA = xor_out; cndB = ZF;
                 if(or_out)
                     cnd = 1;
+                else
+                    cnd = 0;
             end
 
             // jl
@@ -188,6 +204,8 @@ always @(*)
                 cndA = SF; cndB = OF;
                 if(xor_out)
                     cnd = 1;
+                else
+                    cnd = 0;
             end
 
             // je
@@ -195,6 +213,8 @@ always @(*)
             begin 
                 if(ZF)
                     cnd = 1;
+                else
+                    cnd = 0;
             end
 
             // jne
@@ -203,6 +223,8 @@ always @(*)
                 cndA = ZF;
                 if(not_out)
                     cnd = 1;
+                else
+                    cnd = 0;
             end
 
             // jge
@@ -213,6 +235,8 @@ always @(*)
                 cndA = xor_out;
                 if(not_out)
                     cnd = 1;
+                else
+                    cnd = 0;
             end
 
             // jg
@@ -226,6 +250,8 @@ always @(*)
                         cndA = ZF;
                         if(not_out)
                             cnd = 1;
+                        else
+                            cnd = 0;
                     end
             end
             endcase

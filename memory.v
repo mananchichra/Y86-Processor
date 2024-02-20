@@ -23,7 +23,7 @@ begin
     endcase
 end
 
-always @(posedge clk) begin
+always @(*) begin
     case(icode)
 
     4'b0100: //rmmovq
